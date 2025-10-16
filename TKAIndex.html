@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pendaftaran Online TKA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 700px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="file"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* Penting untuk padding agar tidak melebihi lebar */
+        }
+        select {
+            height: 40px;
+        }
+        .button-submit {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            margin-top: 15px;
+            transition: background-color 0.3s ease;
+        }
+        .button-submit:hover {
+            background-color: #0056b3;
+        }
+        .catatan {
+            background-color: #fffff0;
+            border-left: 5px solid #ffcc00;
+            padding: 10px;
+            margin-top: 20px;
+            color: #555;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Formulir Pendaftaran Online TKA (Tes Kemampuan Akademik)</h2>
+    <div class="catatan">
+        Mohon isi data dengan lengkap dan benar. Semua kolom bertanda (*) wajib diisi.
+    </div>
+    
+    <form action="proses_pendaftaran.php" method="POST" enctype="multipart/form-data">
+        
+        <h3>1. Data Diri Peserta</h3>
+        <hr>
+        <div class="form-group">
+            <label for="nama">Nama Lengkap (*)</label>
+            <input type="text" id="nama" name="nama" required placeholder="Sesuai Kartu Identitas">
+        </div>
+
+        <div class="form-group">
+            <label for="nisn">NISN (*)</label>
+            <input type="text" id="nisn" name="nisn" required placeholder="Nomor Induk Siswa Nasional (10 digit)">
+        </div>
+        
+        <div class="form-group">
+            <label for="email">Email Aktif (*)</label>
+            <input type="email" id="email" name="email" required placeholder="Contoh: nama@email.com">
+        </div>
+        
+        <div class="form-group">
+            <label for="telepon">Nomor Telepon/HP (*)</label>
+            <input type="tel" id="telepon" name="telepon" required placeholder="Contoh: 0812xxxxxx">
+        </div>
+        
+        <div class="form-group">
+            <label for="ttl">Tempat & Tanggal Lahir (*)</label>
+            <input type="text" id="ttl" name="ttl" required placeholder="Contoh: Jakarta, 01/01/2005">
+        </div>
+
+        <h3>2. Data Pendidikan</h3>
+        <hr>
+        <div class="form-group">
+            <label for="jenjang">Jenjang TKA (*)</label>
+            <select id="jenjang" name="jenjang" required>
+                <option value="">-- Pilih Jenjang --</option>
+                <option value="sma_ma">SMA/MA/Sederajat</option>
+                <option value="smk_mak">SMK/MAK</option>
+                <option value="paket_c">Program Paket C</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="sekolah">Nama Sekolah Asal (*)</label>
+            <input type="text" id="sekolah" name="sekolah" required placeholder="Nama lengkap sekolah Anda">
+        </div>
+
+        <h3>3. Pemilihan Mata Uji</h3>
+        <p>Pilih 2 (dua) Mata Pelajaran Pilihan yang akan diujikan:</p>
+        <div class="form-group">
+            <label for="mapel1">Pilihan 1 (*)</label>
+            <select id="mapel1" name="mapel1" required>
+                <option value="">-- Pilih Mata Uji --</option>
+                <option value="fisika">Fisika</option>
+                <option value="kimia">Kimia</option>
+                <option value="biologi">Biologi</option>
+                <option value="ekonomi">Ekonomi</option>
+                <option value="geografi">Geografi</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="mapel2">Pilihan 2 (*)</label>
+            <select id="mapel2" name="mapel2" required>
+                <option value="">-- Pilih Mata Uji --</option>
+                <option value="fisika">Fisika</option>
+                <option value="kimia">Kimia</option>
+                <option value="biologi">Biologi</option>
+                <option value="ekonomi">Ekonomi</option>
+                <option value="geografi">Geografi</option>
+            </select>
+        </div>
+
+        <h3>4. Upload Dokumen</h3>
+        <hr>
+        <div class="form-group">
+            <label for="foto">Pas Foto Terbaru (4x6, Latar Merah) (*)</label>
+            <input type="file" id="foto" name="foto" accept="image/*" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="kartu_pelajar">Scan Kartu Pelajar (*)</label>
+            <input type="file" id="kartu_pelajar" name="kartu_pelajar" accept=".pdf, image/*" required>
+        </div>
+
+        <button type="submit" class="button-submit">Daftar Sekarang</button>
+    </form>
+</div>
+
+</body>
+</html>
