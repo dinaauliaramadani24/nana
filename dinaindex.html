@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Login Biru</title>
+    
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- Gaya Umum & Reset --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- Kontainer Utama (Split Screen) --- */
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* --- Panel Kiri (Info & Gambar) --- */
+        .info-panel {
+            flex: 1;
+            /* GRADIENT BIRU */
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: slideInLeft 0.8s ease-out;
+        }
+
+        /* Bentuk Dekoratif di Panel Kiri */
+        .info-panel::before,
+        .info-panel::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .info-panel::before {
+            top: -150px;
+            right: -150px;
+        }
+        .info-panel::after {
+            bottom: -150px;
+            left: -150px;
+        }
+
+        .info-panel h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            z-index: 1;
+        }
+
+        .info-panel p {
+            font-size: 1.2rem;
+            font-weight: 300;
+            max-width: 400px;
+            z-index: 1;
+        }
+
+        /* --- Panel Kanan (Form Login) --- */
+        .form-panel {
+            flex: 1;
+            background-color: #f7f9fc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            animation: slideInRight 0.8s ease-out;
+        }
+
+        .login-form {
+            background: #ffffff;
+            padding: 50px 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-form h2 {
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .login-form p {
+            color: #777;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+
+        /* --- Grup Input dengan Ikon --- */
+        .input-group {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            transition: color 0.3s;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            background: #f7f9fc;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            /* WARNA BIRU SAAT FOKUS */
+            border-color: #4facfe;
+            /* BAYANGAN BIRU SAAT FOKUS */
+            box-shadow: 0 0 0 4px rgba(79, 172, 254, 0.1);
+            background: #fff;
+        }
+
+        .input-group input:focus + i {
+            /* WARNA BIRU PADA IKON SAAT FOKUS */
+            color: #4facfe;
+        }
+
+        /* --- Tombol Login dengan Efek Loading --- */
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            /* GRADIENT BIRU PADA TOMBOL */
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-3px);
+            /* BAYANGAN BIRU SAAT HOVER */
+            box-shadow: 0 10px 20px rgba(79, 172, 254, 0.3);
+        }
+
+        .login-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .login-btn .btn-text {
+            transition: opacity 0.3s;
+        }
+
+        .login-btn .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        /* --- Pesan Error --- */
+        .error-message {
+            color: #e53e3e;
+            margin-top: 15px;
+            font-size: 14px;
+            text-align: center;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .error-message.show {
+            display: block;
+            opacity: 1;
+        }
+
+        /* --- Animasi --- */
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* --- Responsif untuk Layar Kecil --- */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .info-panel {
+                flex: 0 0 40%;
+                padding: 20px;
+            }
+            .info-panel h1 {
+                font-size: 2rem;
+            }
+            .form-panel {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Panel Kiri -->
+        <div class="info-panel">
+            <h1>Selamat Datang Kembali!</h1>
+            <p>Untuk tetap terhubung dengan kami, silakan masuk dengan informasi akun Anda.</p>
+        </div>
+
+        <!-- Panel Kanan -->
+        <div class="form-panel">
+            <form class="login-form" id="loginForm">
+                <h2>Masuk</h2>
+                <p>Masuk ke akun Anda untuk melanjutkan</p>
+                
+                <div class="input-group">
+                    <input type="text" id="username" name="username" placeholder="Username" required>
+                    <i class="fas fa-user"></i>
+                </div>
+                
+                <div class="input-group">
+                    <input type="password" id="password" name="password" placeholder="Password" required>
+                    <i class="fas fa-lock"></i>
+                </div>
+                
+                <button type="submit" class="login-btn" id="loginBtn">
+                    <span class="btn-text">Masuk</span>
+                    <div class="spinner"></div>
+                </button>
+                
+                <p class="error-message" id="errorMessage">Username atau password tidak boleh kosong!</p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Dapatkan elemen-elemen dari DOM
+        const loginForm = document.getElementById('loginForm');
+        const loginBtn = document.getElementById('loginBtn');
+        const btnText = loginBtn.querySelector('.btn-text');
+        const spinner = loginBtn.querySelector('.spinner');
+        const errorMessage = document.getElementById('errorMessage');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+
+        // Tambahkan event listener untuk saat form disubmit
+        loginForm.addEventListener('submit', function(event) {
+            // Mencegah form dari pengiriman default
+            event.preventDefault();
+
+            // Ambil nilai dari input dan hapus spasi di awal/akhir
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            // Validasi sederhana
+            if (username === '' || password === '') {
+                // Tampilkan pesan error
+                showError('Username atau password tidak boleh kosong!');
+            } else {
+                // Sembunyikan pesan error jika ada
+                hideError();
+                
+                // Tampilkan state loading
+                showLoadingState();
+
+                // --- SIMULASI PROSES LOGIN (2 detik) ---
+                setTimeout(() => {
+                    // Sembunyikan state loading
+                    hideLoadingState();
+                    
+                    // --- SIMULASI LOGIN BERHASIL ---
+                    // Di aplikasi nyata, di sinilah Anda akan memeriksa respons dari server.
+                    alert(`Login berhasil!\nSelamat datang, ${username}!`);
+                    
+                    // Contoh: Arahkan ke halaman dashboard setelah login
+                    // window.location.href = 'dashboard.html';
+                }, 2000); // Simulasi delay 2 detik
+            }
+        });
+
+        // Fungsi untuk menampilkan pesan error
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.classList.add('show');
+        }
+
+        // Fungsi untuk menyembunyikan pesan error
+        function hideError() {
+            errorMessage.classList.remove('show');
+        }
+        
+        // Fungsi untuk menampilkan state loading pada tombol
+        function showLoadingState() {
+            loginBtn.disabled = true;
+            btnText.style.opacity = '0';
+            spinner.style.display = 'block';
+        }
+
+        // Fungsi untuk menyembunyikan state loading
+        function hideLoadingState() {
+            loginBtn.disabled = false;
+            btnText.style.opacity = '1';
+            spinner.style.display = 'none';
+        }
+    </script>
+
+</body>
+</html>
